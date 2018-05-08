@@ -341,7 +341,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1850802587670690}
   serializedVersion: 2
-  m_Mass: 0.08
+  m_Mass: 1
   m_Drag: 0.2
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -488,4 +488,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1384f7a2c692e642a3919e923b87e13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 50
+  rotationSpeed: 100
+  thrustSpeed: 1000

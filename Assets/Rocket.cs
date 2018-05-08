@@ -6,14 +6,18 @@ public class Rocket : MonoBehaviour {
 
 	Rigidbody rb;
 
-	AudioSource thrustSourse;
+	AudioSource thrustSource;
 
-	public float rotationSpeed;
+	[SerializeField]
+	float rotationSpeed = 100f;
+
+	[SerializeField]
+	float thrustSpeed = 100f;
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
-		thrustSourse = GetComponent<AudioSource>();
+		thrustSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -22,26 +26,31 @@ public class Rocket : MonoBehaviour {
 	}
 
 	void ProcessInput() {
+		Thrust();
+		Rotate();
+	}
+
+	void Thrust() {
 		if(Input.GetKey(KeyCode.Space)) {
-			rb.AddRelativeForce(Vector3.up);
-			if(!thrustSourse.isPlaying) {
-				thrustSourse.Play();
+			rb.AddRelativeForce(Vector3.up * thrustSpeed * Time.deltaTime);
+			if(!thrustSource.isPlaying) {
+				thrustSource.Play();
 			}
 		} else {
-			if(thrustSourse.isPlaying) {
-				thrustSourse.Stop();
+			if(thrustSource.isPlaying) {
+				thrustSource.Stop();
 			}
 		}
-		Rotate();
 	}
 
 	void Rotate() {
 		rb.freezeRotation = true;
+		Vector3 rotation = Vector3.forward * Time.deltaTime * rotationSpeed;
 		if(Input.GetKey(KeyCode.Q)) {
-			transform.Rotate(Vector3.forward * Time.deltaTime * rotationSpeed);
+			transform.Rotate(rotation);
 		}
 		if(Input.GetKey(KeyCode.D)) {
-			transform.Rotate(-Vector3.forward * Time.deltaTime * rotationSpeed);
+			transform.Rotate(-rotation);
 		}
 		rb.freezeRotation = false;
 	}
