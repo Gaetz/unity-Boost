@@ -5,8 +5,10 @@ using UnityEngine;
 public class RocketControl : MonoBehaviour {
 	[SerializeField] float rotationSpeed = 100f;
 	[SerializeField] float thrustSpeed = 1000f;
+	[SerializeField] AudioClip mainEngine;
+
 	Rigidbody rb;
-	AudioSource thrustSource;
+	AudioSource audioSource;
 
 	RocketCollision collisions;
 
@@ -14,7 +16,7 @@ public class RocketControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
-		thrustSource = GetComponent<AudioSource>();
+		audioSource = GetComponent<AudioSource>();
 		collisions = GetComponent<RocketCollision>();
 	}
 	
@@ -22,8 +24,6 @@ public class RocketControl : MonoBehaviour {
 	void Update () {
 		if(collisions.State == RocketState.Alive) {
 			ProcessInput();
-		} else {
-			thrustSource.Stop();
 		}
 	}
 
@@ -35,12 +35,12 @@ public class RocketControl : MonoBehaviour {
 	void Thrust() {
 		if(Input.GetKey(KeyCode.Space)) {
 			rb.AddRelativeForce(Vector3.up * thrustSpeed * Time.deltaTime);
-			if(!thrustSource.isPlaying) {
-				thrustSource.Play();
+			if(!audioSource.isPlaying) {
+				audioSource.PlayOneShot(mainEngine);
 			}
 		} else {
-			if(thrustSource.isPlaying) {
-				thrustSource.Stop();
+			if(audioSource.isPlaying) {
+				audioSource.Stop();
 			}
 		}
 	}

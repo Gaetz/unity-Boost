@@ -7,16 +7,19 @@ public enum RocketState { Alive, Dying, Transcending };
 
 public class RocketCollision : MonoBehaviour {
 
-	[SerializeField]
-	float reloadTimer = 1f;
+	[SerializeField] float reloadTimer = 1f;
+	[SerializeField] AudioClip levelEnd;
+	[SerializeField] AudioClip explosion;
 
 	public RocketState State {
 		get { return state; }
 	}
 	RocketState state;
-	
+	AudioSource audioSource;
+
 	void Start() {
 		state = RocketState.Alive;
+		audioSource = GetComponent<AudioSource>();
 	}
 
 	// Use this for initialization
@@ -29,10 +32,12 @@ public class RocketCollision : MonoBehaviour {
 				break;
 			case "Finish":
 				state = RocketState.Transcending;
+				audioSource.PlayOneShot(levelEnd);
 				Invoke("LoadNextScene", reloadTimer);
 				break;
 			case "Dangerous":
 				state = RocketState.Dying;
+				audioSource.PlayOneShot(explosion);
 				Invoke("RestartLevel", reloadTimer);
 				break;
 		}
