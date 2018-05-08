@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RocketControl : MonoBehaviour {
-
+	[SerializeField] float rotationSpeed = 100f;
+	[SerializeField] float thrustSpeed = 1000f;
 	Rigidbody rb;
-
 	AudioSource thrustSource;
 
-	[SerializeField]
-	float rotationSpeed = 100f;
+	RocketCollision collisions;
 
-	[SerializeField]
-	float thrustSpeed = 1000f;
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		thrustSource = GetComponent<AudioSource>();
+		collisions = GetComponent<RocketCollision>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		ProcessInput();
+		if(collisions.State == RocketState.Alive) {
+			ProcessInput();
+		} else {
+			thrustSource.Stop();
+		}
 	}
 
 	void ProcessInput() {
