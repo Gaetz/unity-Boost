@@ -6,6 +6,7 @@ public class RocketControl : MonoBehaviour {
 	[SerializeField] float rotationSpeed = 100f;
 	[SerializeField] float thrustSpeed = 1000f;
 	[SerializeField] AudioClip mainEngine;
+	[SerializeField] ParticleSystem thrustParticles;
 
 	Rigidbody rb;
 	AudioSource audioSource;
@@ -35,10 +36,12 @@ public class RocketControl : MonoBehaviour {
 	void Thrust() {
 		if(Input.GetKey(KeyCode.Space)) {
 			rb.AddRelativeForce(Vector3.up * thrustSpeed * Time.deltaTime);
+			thrustParticles.Play();
 			if(!audioSource.isPlaying) {
 				audioSource.PlayOneShot(mainEngine);
 			}
 		} else {
+			thrustParticles.Stop();
 			if(audioSource.isPlaying) {
 				audioSource.Stop();
 			}
