@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RocketCollision : MonoBehaviour {
 
@@ -10,8 +11,11 @@ public class RocketCollision : MonoBehaviour {
 			case "Friendly":
 				// Do nothing
 				break;
+			case "Finish":
+				SceneManager.LoadScene(1);
+				break;
 			case "Dangerous":
-				Destroy(gameObject);
+				SceneManager.LoadScene(0);
 				break;
 		}
 	}
